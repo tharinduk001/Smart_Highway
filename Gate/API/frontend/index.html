@@ -79,7 +79,7 @@
       const logEntry = document.createElement('div');
       logEntry.classList.add('log-entry', status.toLowerCase());
       logEntry.innerHTML = `
-        <strong>${status === 'Valid' ? '✅ Card is valid' : '❌ Invalid card'}</strong>
+        <strong>${status === 'Valid' ? '✅ Vehicle is Identified': '❌ Vehicle is Unrecognized'}</strong>
         <p>Card UID: ${cardUID}</p>
         <p class="log-time">Timestamp: ${new Date(timestamp).toLocaleString()}</p>
       `;
