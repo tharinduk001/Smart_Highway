@@ -80,7 +80,7 @@
       logEntry.classList.add('log-entry', status.toLowerCase());
       logEntry.innerHTML = `
         <strong>${status === 'Valid' ? '✅ Vehicle is Identified': '❌ Vehicle is Unrecognized'}</strong>
-        <p>Card UID: ${cardUID}</p>
+        <p>Vehicle ID: ${cardUID}</p>
         <p class="log-time">Timestamp: ${new Date(timestamp).toLocaleString()}</p>
       `;
       logsContainer.prepend(logEntry);
