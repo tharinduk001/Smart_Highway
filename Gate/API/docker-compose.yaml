@@ -7,8 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    depends_on:
-      - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/rfid_logs
 
@@ -20,6 +18,15 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - WEBSOCKET_HOST=localhost  # Refer to the backend service
+      - WEBSOCKET_PORT=3000
 
 volumes:
   mongo_data:

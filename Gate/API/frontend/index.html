@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,19 +56,16 @@
     }
   </style>
 </head>
-
 <body>
   <header>
-    <h1>RFID Validation Monitor</h1>
+    <h1>Highway Entrance Tracker🎫</h1>
   </header>
   <div class="container">
     <h2>Real-Time Validation Status</h2>
-    <div id="logs">
-      <!-- Real-time log entries will be inserted here -->
-    </div>
+    <div id="logs"></div>
   </div>
   <script>
-    const socket = new WebSocket("ws://localhost:3000");
+    const socket = new WebSocket('ws://localhost:3000'); // Use 'localhost:3000' if not in Docker
     const logsContainer = document.getElementById('logs');
 
     socket.onmessage = (event) => {
@@ -79,13 +75,15 @@
       const logEntry = document.createElement('div');
       logEntry.classList.add('log-entry', status.toLowerCase());
       logEntry.innerHTML = `
-        <strong>${status === 'Valid' ? '✅ Vehicle is Identified': '❌ Vehicle is Unrecognized'}</strong>
-        <p>Card UID: ${cardUID}</p>
+        <strong>${status === 'Valid' ? '✅ Vehicle Identified' : '❌ Unrecognized Vehicle'}</strong>
+        <p>Vehicle ID: ${cardUID}</p>
         <p class="log-time">Timestamp: ${new Date(timestamp).toLocaleString()}</p>
       `;
       logsContainer.prepend(logEntry);
     };
+
+    socket.onerror = (error) => console.error("WebSocket error:", error);
+    socket.onclose = () => console.log("WebSocket connection closed.");
   </script>
 </body>
-
 </html>

@@ -5,22 +5,25 @@ const WebSocket = require('ws');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Use PORT from environment, default to 3000
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
 // MongoDB connection
-const MONGO_URI = 'mongodb://mongo:27017/rfid_logs';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/rfid_logs'; // Use MONGO_URI from environment
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .then(() => console.log(`Connected to MongoDB at ${MONGO_URI}`))
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1); // Exit if MongoDB connection fails
+  });
 
 // Define Log Schema
 const logSchema = new mongoose.Schema({
   cardUID: String,
   status: String,
-  timestamp: { type: Date, default: Date.now }
+  timestamp: { type: Date, default: Date.now },
 });
 const Log = mongoose.model('Log', logSchema);
 
@@ -55,7 +58,7 @@ app.post('/validate-card', async (req, res) => {
     broadcast(logEntry); // Broadcast to WebSocket clients
     res.status(status === "Valid" ? 200 : 403).json({
       success: status === "Valid",
-      message: status === "Valid" ? "Card is valid" : "Invalid card"
+      message: status === "Valid" ? "Card is valid" : "Invalid card",
     });
   } catch (error) {
     console.error("Error saving log:", error);
