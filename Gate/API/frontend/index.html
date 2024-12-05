@@ -65,7 +65,7 @@
     <div id="logs"></div>
   </div>
   <script>
-    const socket = new WebSocket('ws://localhost:3000'); // Use 'localhost:3000' if not in Docker
+    const socket = new WebSocket('ws://localhost:3000'); 
     const logsContainer = document.getElementById('logs');
 
     socket.onmessage = (event) => {
