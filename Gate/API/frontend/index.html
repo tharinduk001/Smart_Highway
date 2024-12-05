@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RFID Validation Monitor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      /* Ensures the header sticks to the top */
+      z-index: 1000;
+      /* Makes sure it stays above other elements */
+      background-color: #007bff;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      /* Optional: Adds a shadow for better visibility */
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .log-entry {
+      background-color: #fff;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-left: 6px solid;
+    }
+
+    .log-entry.valid {
+      border-color: #28a745;
+      /* Green for valid */
+    }
+
+    .log-entry.invalid {
+      border-color: #dc3545;
+      /* Red for invalid */
+    }
+
+    .log-time {
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Highway Entrance Tracker🎫</h1>
+  </header>
+  <div class="container">
+    <h2>Real-Time Validation Status</h2>
+    <div id="logs"></div>
+  </div>
+  <script>
+    const socket = new WebSocket('ws://localhost:3000'); 
+    const logsContainer = document.getElementById('logs');
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const { cardUID, status, timestamp } = data;
+
+      const logEntry = document.createElement('div');
+      logEntry.classList.add('log-entry', status.toLowerCase());
+      logEntry.innerHTML = `
+        <strong>${status === 'Valid' ? '✅ Vehicle Identified' : '❌ Unrecognized Vehicle'}</strong>
+        <p>Vehicle ID: ${cardUID}</p>
+        <p class="log-time">Timestamp: ${new Date(timestamp).toLocaleString()}</p>
+      `;
+      logsContainer.prepend(logEntry);
+    };
+
+    socket.onerror = (error) => console.error("WebSocket error:", error);
+    socket.onclose = () => console.log("WebSocket connection closed.");
+  </script>
+</body>
+</html>
