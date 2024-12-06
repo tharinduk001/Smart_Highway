@@ -18,7 +18,7 @@
 4. **Set Environment Variable**  
    Add the following environment variable:  
    ```bash
-   MONGO_URI=mongodb://192.99.4.40:27017/rfid_logs```
+   MONGO_URI=mongodb://192.99.4.40:27017/rfid_logs
 
 ## Step 03: Frontend Container Setup
 1. **Import Frontend**  
