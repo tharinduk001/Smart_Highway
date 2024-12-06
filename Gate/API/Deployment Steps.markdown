@@ -1,7 +1,7 @@
 # Deployment Steps for Containers
 
 ## Step 01: MongoDB Setup
-- MongoDB Image is : mongo:6.0
+- MongoDB Image : mongo:6.0
 1. **Pull MongoDB Image**  
    Use the following image: `mongo:6.0`.
 2. **Set Up Shared Volume**  
