@@ -1,6 +1,7 @@
 # Deployment Steps for Containers
 
 ## Step 01: MongoDB Setup
+- MongoDB Image is : mongo:6.0
 1. **Pull MongoDB Image**  
    Use the following image: `mongo:6.0`.
 2. **Set Up Shared Volume**  
@@ -9,6 +10,7 @@
    Bind the container port `27017` to host port `27017`.
 
 ## Step 02: Backend Container Setup
+- Backend Image : kalharacodes/highway-backend:latest
 1. **Import Backend**  
    Ensure the backend service is imported into your project.
 2. **Set Up Shared Volume**  
@@ -21,6 +23,7 @@
    MONGO_URI=mongodb://192.99.4.40:27017/rfid_logs
 
 ## Step 03: Frontend Container Setup
+- Frontend Image : kalharacodes/highway-frontend:latest
 1. **Import Frontend**  
 Ensure the frontend service is imported into your project.
 2. **Set Environment Variables**  
