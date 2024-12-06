@@ -36,3 +36,4 @@ Bind the container port `8080` to host port `80`.
 ## Step 04: Project is Live 
 1. Now you can access the backend by http://BACKEND_IP:3000/validate-card/
 2. You can access the frontend by http://FRONTEND_IP:8080
+3. Happy Journey on Highway!
