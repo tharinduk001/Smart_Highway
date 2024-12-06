@@ -15,6 +15,9 @@
 // Servo Pin
 #define SERVO_PIN D8    // Servo control pin (reassigned)
 
+// Buzzer Pin
+#define BUZZER_PIN D0   // Buzzer control pin
+
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
 Servo servoMotor;                // Servo motor instance
 
@@ -23,7 +26,7 @@ const char* ssid = "KALHARAHOME";
 const char* password = "1ca81d0D";
 
 // API Endpoint
-const char* apiEndpoint = "http://192.99.4.40:3000/validate-card";
+const char* apiEndpoint = "http://192.99.35.63:3000/validate-card";
 
 WiFiClient client;
 
@@ -37,11 +40,13 @@ void setup() {
   mfrc522.PCD_Init();
   Serial.println("RFID reader initialized.");
 
-  // Initialize LED pins
+  // Initialize LED and buzzer pins
   pinMode(VALID_LED, OUTPUT);
   pinMode(INVALID_LED, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
   digitalWrite(VALID_LED, LOW);
   digitalWrite(INVALID_LED, LOW);
+  digitalWrite(BUZZER_PIN, LOW);
 
   // Initialize Servo
   servoMotor.attach(SERVO_PIN);
@@ -55,6 +60,21 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("\nConnected to WiFi!");
+}
+
+void successTone() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(200); // Short beep for success
+  digitalWrite(BUZZER_PIN, LOW);
+}
+
+void errorTone() {
+  for (int i = 0; i < 2; i++) {
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(150); // Quick beep for error
+    digitalWrite(BUZZER_PIN, LOW);
+    delay(150); // Small gap between beeps
+  }
 }
 
 void loop() {
@@ -104,13 +124,15 @@ void loop() {
       if (response.indexOf("\"success\":true") != -1) {
         Serial.println("Card is valid.");
         digitalWrite(VALID_LED, HIGH); // Turn on valid card LED
-        servoMotor.write(180);        // Rotate servo to 100 degrees
+        successTone();                 // Play success tone
+        servoMotor.write(180);        // Rotate servo to 180 degrees
         delay(3000);                  // Wait 3 seconds
         servoMotor.write(0);          // Reset servo to 0 degrees
         digitalWrite(VALID_LED, LOW); // Turn off valid card LED
       } else {
         Serial.println("Card is invalid.");
         digitalWrite(INVALID_LED, HIGH); // Turn on invalid card LED
+        errorTone();                     // Play error tone
         delay(2000);                     // Wait 2 seconds
         digitalWrite(INVALID_LED, LOW);  // Turn off invalid card LED
       }
@@ -126,4 +148,3 @@ void loop() {
   // Halt the reader to prepare for the next scan
   mfrc522.PICC_HaltA();
 }
-
