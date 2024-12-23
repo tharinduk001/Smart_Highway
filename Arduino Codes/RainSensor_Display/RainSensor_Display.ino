@@ -2,6 +2,12 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
+// Vibration Pins
+#define LED 13
+#define Sensor 4
+#define VCC 2
+#define GND 3
+
 // Constants
 constexpr int RAIN_THRESHOLD = 500;
 constexpr int OLED_RESET = -1; // OLED reset pin
@@ -90,6 +96,15 @@ void setup() {
     HighwayDisplay.clearDisplay();
     HighwayDisplay.setTextSize(2);  // Set text size
     HighwayDisplay.setTextColor(WHITE); // Text color
+
+    // Initialize Vibration Sensor/ LED
+    pinMode(Sensor, INPUT);
+    pinMode(LED, OUTPUT);
+    pinMode(VCC, OUTPUT);
+    digitalWrite(VCC, HIGH);
+    pinMode(GND, OUTPUT);
+    digitalWrite(GND, LOW);
+
 }
 
 void loop() {
@@ -117,6 +132,15 @@ void loop() {
         updateSunnyAnimation();
         HighwayDisplay.display();
     }
+
+    // Display vibration/collision detection
+    bool value = digitalRead(Sensor);
+    if (value == 1) {
+        digitalWrite(LED,HIGH);
+    } else if(value == 0){
+        digitalWrite(LED,LOW);
+    }
+
 }
 
 // Function Definitions
