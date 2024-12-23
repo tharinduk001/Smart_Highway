@@ -28,12 +28,12 @@
 Ensure the frontend service is imported into your project.
 2. **Set Environment Variables**  
 Define the following environment variables:  
-- `WEBSOCKET_PORT` (defautlt 3000) This needs to be in 1st place
-- `WEBSOCKET_HOST` (IP address of backend)  This needs to be in 2nd place
-1. **Expose Ports**  
-Bind the container port `80` to host port `8080`
+- `WEBSOCKET_HOST` (IP address of backend)  
+- `WEBSOCKET_PORT` (defautlt 3000)
+3. **Expose Ports**  
+Bind the container port `8080` to host port `80`.
 
 ## Step 04: Project is Live 
 1. Now you can access the backend by http://BACKEND_IP:3000/validate-card/
 2. You can access the frontend by http://FRONTEND_IP:8080
-3. Safe Journey on Highway!
+3. Happy Journey on Highway!
