@@ -26,4 +26,7 @@ The other components that have been used are:
   - Buzzer
   - etc
 
+## Circuit Diagram
+![unnamed](https://github.com/user-attachments/assets/fe83a1fc-7fd2-4904-9624-742bbe2c55fd)
+
 Feel free to experiment and collaborate on this project to apply in the real world!
